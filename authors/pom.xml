@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <graphql-maven-plugin.version>1.18.6</graphql-maven-plugin.version>
+        <graphql-maven-plugin.version>1.18.11</graphql-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -27,6 +27,46 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Dependencies for GraphQL -->
+<!--        <dependency>-->
+<!--            <groupId>com.graphql-java-generator</groupId>-->
+<!--            <artifactId>graphql-java-server-runtime</artifactId>-->
+<!--            <version>${graphql-maven-plugin.version}</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.graphql-java-generator</groupId>
+            <artifactId>graphql-java-client-runtime</artifactId>
+            <version>${graphql-maven-plugin.version}</version>
+        </dependency>
+
+        <!-- Add of the graphiql interface, to test your GraphQL server -->
+        <!-- It's available at http://localhost:8180/graphiql -->
+        <dependency>
+            <!-- com.graphql-java:graphiql-spring-boot-starter is deprecated. This
+                project has been moved to com.graphql-java-kickstart -->
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>6.0.1</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -57,7 +97,8 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>generateServerCode</goal>
+							<goal>generatePojo</goal>
+<!--                            <goal>generateServerCode</goal>-->
 						</goals>
 					</execution>
 				</executions>
@@ -65,21 +106,23 @@
 					<!-- Let's configure the GraphQL Gradle Plugin: -->
 					<!-- All available parameters are described here: -->
 					<!-- https://graphql-maven-plugin-project.graphql-java-generator.com/graphql-maven-plugin/generateServerCode-mojo.html -->
-					<packageName>org.forum.server.graphql</packageName>
-					<scanBasePackages>org.forum.server.impl, org.forum.server.jpa</scanBasePackages>
-					<customScalars>
-						<customScalar>
-							<graphQLTypeName>Date</graphQLTypeName>
-							<javaType>java.util.Date</javaType>
-							<graphQLScalarTypeStaticField>com.graphql_java_generator.customscalars.GraphQLScalarTypeDate.Date
-							</graphQLScalarTypeStaticField>
-						</customScalar>
-					</customScalars>
+					<packageName>com.example.demo.authors.graphql.generated</packageName>
+<!--					<scanBasePackages>org.forum.server.impl, org.forum.server.jpa</scanBasePackages>-->
+                    <schemaFileFolder>src/main/resources/graphql</schemaFileFolder>
+<!--					<customScalars>-->
+<!--						<customScalar>-->
+<!--							<graphQLTypeName>Date</graphQLTypeName>-->
+<!--							<javaType>java.util.Date</javaType>-->
+<!--							<graphQLScalarTypeStaticField>com.graphql_java_generator.customscalars.GraphQLScalarTypeDate.Date-->
+<!--							</graphQLScalarTypeStaticField>-->
+<!--						</customScalar>-->
+<!--					</customScalars>-->
 					<!-- The parameters below change the 1.x default behavior. They are set to respect the behavior of the future 2.x versions -->
 					<copyRuntimeSources>false</copyRuntimeSources>
-					<generateBatchLoaderEnvironment>true</generateBatchLoaderEnvironment>
-					<separateUtilityClasses>true</separateUtilityClasses>
-					<skipGenerationIfSchemaHasNotChanged>true</skipGenerationIfSchemaHasNotChanged>
+<!--					<generateBatchLoaderEnvironment>true</generateBatchLoaderEnvironment>-->
+<!--					<separateUtilityClasses>true</separateUtilityClasses>-->
+<!--					<skipGenerationIfSchemaHasNotChanged>true</skipGenerationIfSchemaHasNotChanged>-->
+<!--                    <mode>server</mode>-->
 				</configuration>
 			</plugin>
 
