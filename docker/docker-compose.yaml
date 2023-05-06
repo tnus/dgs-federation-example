@@ -1,0 +1,10 @@
+services:
+
+  # can be opened at: http://localhost:5000/graphiql
+  graphiql:
+    container_name: graphiql
+    image: npalm/graphiql
+    ports:
+      - 5000:4000
+    environment:
+      API_URL: http://host.docker.internal:8082/graphql

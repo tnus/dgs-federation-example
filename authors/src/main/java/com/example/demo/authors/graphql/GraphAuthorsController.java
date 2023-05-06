@@ -13,16 +13,17 @@ import java.util.List;
 @Slf4j
 class GraphAuthorsController {
 
-//    @QueryMapping
-//    public List<Author> authors() {
-//        log.info("load authors");
-//
-//        return List.of(createAuthor("Harrison Ford"), createAuthor("Pierce Brosnan"));
-//    }
+    @QueryMapping
+    public List<Author> authors() {
+        log.info("load authors");
 
-    @SchemaMapping
+        return List.of(createAuthor("Harrison Ford"), createAuthor("Pierce Brosnan"));
+    }
+
+    @SchemaMapping(field = "authors", typeName = "Show")
 //    @QueryMapping
-    public List<Author> authors(Show show) {
+    public List<Author> authorsByShow(Show show)    {
+        log.info("load authors for show {}", show.getId());
         return List.of(createAuthor(show.getId() + " - Harrison Ford"), createAuthor(show.getId() + " - Pierce Brosnan"));
     }
 

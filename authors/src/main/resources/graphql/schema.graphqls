@@ -1,6 +1,6 @@
-#type Query {
-#    authors: [Author]
-#}
+type Query {
+    authors: [Author]
+}
 
 type Show @key(fields: "id") @extends {
     id: ID @external
