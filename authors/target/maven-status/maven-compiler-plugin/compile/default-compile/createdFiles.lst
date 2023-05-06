@@ -3,6 +3,7 @@ com\example\demo\authors\graphql\generated\DgsConstants$QUERY.class
 com\example\demo\authors\graphql\generated\types\Author.class
 com\example\demo\authors\config\GraphQLConfig.class
 com\example\demo\authors\graphql\GraphAuthorsController.class
+com\example\demo\authors\config\RequestLoggingInstrumentation.class
 com\example\demo\authors\config\SecurityConfiguration.class
 com\example\demo\authors\graphql\generated\DgsConstants$SHOW.class
 com\example\demo\authors\graphql\generated\Generated.class

@@ -19,25 +19,16 @@ import java.util.stream.Collectors;
 @Slf4j
 class GraphQLFederationConfig {
 
-//    @Bean
-//    public GraphQlSourceBuilderCustomizer federationTransform() {
-//        return builder -> {
-//            builder.schemaFactory((registry, wiring)->
-//                    Federation.transform(registry, wiring)
-//                            .fetchEntities(env -> null)
-//                            .resolveEntityType(env -> null)
-//                            .build()
-//            );
-//        };
-//    }
+
 
     @Bean
     public GraphQlSourceBuilderCustomizer federationTransform() {
         DataFetcher<?> entityDataFetcher = env -> {
             List<Map<String, Object>> representations = env.getArgument(_Entity.argumentName);
+
             return representations.stream()
                     .map(representation -> {
-                        log.info("map representation: {}", representation);
+                        log.debug("map representation: {}", representation);
 
                         if (DgsConstants.SHOW.TYPE_NAME.equals(representation.get("__typename"))) {
                             return Show.newBuilder().id((String)representation.get("id")).build();
