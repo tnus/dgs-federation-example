@@ -10,4 +10,4 @@ management:
 logging:
   level:
     org.springframework.security: info
-    graphql: debug
+    graphql: info
