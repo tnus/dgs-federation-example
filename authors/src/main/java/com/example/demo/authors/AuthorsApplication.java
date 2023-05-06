@@ -1,2 +1,13 @@
-package com.example.demo.authors;class AuthorsApplication {
+package com.example.demo.authors;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AuthorsApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AuthorsApplication.class, args);
+    }
+
 }
