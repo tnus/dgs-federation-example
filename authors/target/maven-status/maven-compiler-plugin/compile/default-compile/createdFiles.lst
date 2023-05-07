@@ -5,6 +5,7 @@ com\example\demo\authors\config\GraphQLConfig.class
 com\example\demo\authors\graphql\GraphAuthorsController.class
 com\example\demo\authors\config\RequestLoggingInstrumentation.class
 com\example\demo\authors\config\SecurityConfiguration.class
+com\example\demo\authors\graphql\generated\DgsConstants$QUERY$AUTHOR_INPUT_ARGUMENT.class
 com\example\demo\authors\graphql\generated\DgsConstants$SHOW.class
 com\example\demo\authors\graphql\generated\Generated.class
 com\example\demo\authors\graphql\generated\types\Show.class

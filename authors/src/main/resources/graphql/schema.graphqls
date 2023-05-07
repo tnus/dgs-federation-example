@@ -1,13 +1,34 @@
 type Query {
+    """ queries all authors """
     authors: [Author]
+
+    author(id: ID): Author
 }
 
+# Defined in the shows module
 type Show @key(fields: "id") @extends {
     id: ID @external
     authors: [Author]
 }
 
 
-type Author {
-    name: String
+""" Author of a show """
+type Author @key(fields: "id") {
+    """ Author Id """
+    id: ID!
+
+    """ Fullname of the author """
+    name: String @deprecated(reason: "Use fullName instead")
+
+    """ First name of the author """
+    firstName: String
+
+    """ Last name of the author """
+    lastName: String
+
+    """ Full name of the author """
+    fullName: String
 }
+
+# (Subgraph schemas include this to opt in to Federation 2 features.)
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@key", "@shareable", "@extends", "@external"])

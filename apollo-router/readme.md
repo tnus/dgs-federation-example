@@ -12,7 +12,7 @@ Folgender Befehl erzeugt den Supergraph
 
 Man kann dann den Router mit dem docker compose file starten.
 
-Wenn man einen Graphql client verwendet kann man z.B. an folgende url http://localhost:4000 die Beispiel query senden
+Wenn man einen Graphql client verwendet kann man z.B. an folgende url http://localhost:4000/graphql die Beispiel query senden
 
     {
         shows {

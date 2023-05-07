@@ -39,3 +39,7 @@ Other DGS framework examples
 
 * Standalone DGS in [Java](https://github.com/Netflix/dgs-examples-java)
 * Standalone DGS in [Kotlin](https://github.com/Netflix/dgs-examples-kotlin)
+
+ToDo
+----
+* Hive Schema Registry ausprobieren. Erkennt auch inkompatible Änderungen

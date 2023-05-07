@@ -4,6 +4,7 @@ supergraph:
   # The socket address and port to listen on
   listen: 0.0.0.0:4000
   introspection: true
+  path: /graphql
 
 sandbox:
   enabled: true
