@@ -3,12 +3,12 @@ subgraphs:
   shows:
     routing_url: http://host.docker.internal:8080/graphql
     schema:
-      file: ./subgraph/shows.schema.graphqls
+      file: ./../../shows-dgs/src/main/resources/schema/schema.graphqls
   reviews:
     routing_url: http://host.docker.internal:8081/graphql
     schema:
-      file: ./subgraph/reviews.schema.graphqls
+      file: ./../../reviews-dgs/src/main/resources/schema/schema.graphqls
   authors:
     routing_url: http://host.docker.internal:8082/graphql
     schema:
-      file: ./subgraph/authors.schema.graphqls
+      file: ./../../authors/src/main/resources/graphql/schema.graphqls

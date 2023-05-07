@@ -34,7 +34,21 @@ class GraphAuthorsControllerTest {
                 }
                 """;
 
-        tester.document(query).variable("representations", List.of(Map.of("__typename", "Show", "id", "4711"))).execute().path("_entities[0].id").entity(String.class).isEqualTo("4711").path("_entities[0].authors[0]").entity(Author.class).isEqualTo(
-                Author.newBuilder().name("4711 - Harrison Ford").build());
+        tester.document(query).variable("representations",
+                List.of(Map.of("__typename", "Show", "id", "1"))).execute().path("_entities[0].id").entity(String.class).isEqualTo("1").path("_entities[0].authors[0]").entity(Author.class).isEqualTo(Author.newBuilder().name("Matt Duffer").build());
+    }
+
+    @Test
+    void allAuthors() {
+        String query = """
+                {
+                  authors {
+                    name
+                  }
+                }
+                """;
+
+        tester.document(query)
+                .execute().path("data.authors").entityList(Author.class).hasSizeGreaterThan(0);
     }
 }

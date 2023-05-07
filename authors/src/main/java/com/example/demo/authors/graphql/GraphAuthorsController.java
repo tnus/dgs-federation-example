@@ -10,20 +10,41 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Controller
 @Slf4j
 class GraphAuthorsController {
 
+    private Map<String, List<Author>> showAuthors;
+
+    public GraphAuthorsController() {
+        showAuthors = new HashMap<>();
+        showAuthors.put("1", List.of(createAuthor("Matt Duffer"), createAuthor("Ross Duffer"))); // Stranger Things
+        showAuthors.put("2", List.of(createAuthor("Bill Dubuque"), createAuthor("Mark Williams"))); // Ozark
+        showAuthors.put("3", List.of(createAuthor("Peter Morgan"))); // The Crown
+        showAuthors.put("4", List.of(createAuthor("Liz Feldman"))); // Dead to Me
+        showAuthors.put("5", List.of(createAuthor("Piper Kerman"))); // Orange is the new black
+    }
+
+
     @QueryMapping
     public List<Author> authors() {
         log.info("load authors");
 
-        return List.of(createAuthor("Harrison Ford"), createAuthor("Pierce Brosnan"));
+        Set<Author> allAuthors = new HashSet<>();
+
+        showAuthors.values().stream().forEach(allAuthors::addAll);
+
+        log.info("{} authors found", allAuthors.size());
+
+        return  allAuthors.stream().toList();
     }
 
     // replaced with batch mapping
@@ -42,7 +63,7 @@ class GraphAuthorsController {
 
         Map<Show, List<Author>> resultMap = new HashMap<>();
         shows.forEach(show -> {
-            resultMap.put(show, List.of(createAuthor(show.getId() + " - Harrison Ford"), createAuthor(show.getId() + " - Pierce Brosnan")));
+            resultMap.put(show, showAuthors.getOrDefault(show.getId(), Collections.emptyList()));
         });
 
         return resultMap;
