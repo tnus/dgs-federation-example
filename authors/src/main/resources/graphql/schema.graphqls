@@ -1,8 +1,27 @@
 type Query {
     """ queries all authors """
-    authors: [Author]
+    author_findAll: [Author]
 
-    author(id: ID): Author
+    """
+    Finds the author with the given id.
+
+    Returns null if no author was found
+    """
+    author_findById(id: ID): Author
+
+    """
+    Returns authors which matches the given search criteria.
+    """
+    author_search(searchCriteria: AuthorSearchCriteria): [Author]
+}
+
+"""
+Can be used to search one or more authors
+"""
+input AuthorSearchCriteria {
+    authorId: ID
+    firstName: String
+    lastName: String
 }
 
 # Defined in the shows module

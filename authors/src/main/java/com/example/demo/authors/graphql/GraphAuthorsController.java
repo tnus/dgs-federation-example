@@ -1,24 +1,21 @@
 package com.example.demo.authors.graphql;
 
 import com.example.demo.authors.graphql.generated.types.Author;
+import com.example.demo.authors.graphql.generated.types.AuthorSearchCriteria;
 import com.example.demo.authors.graphql.generated.types.Show;
+import com.graphql_java_generator.annotation.GraphQLInputType;
 import lombok.extern.slf4j.Slf4j;
-import org.dataloader.DataLoader;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Controller
@@ -37,12 +34,10 @@ class GraphAuthorsController {
     }
 
 
-    @QueryMapping
-    public List<Author> authors() {
+    @QueryMapping("author_findAll")
+    public List<Author> findAllAuthors() {
         log.info("load authors");
 
-        //Set<Author> allAuthors = new HashSet<>();
-//        showAuthors.values().stream().forEach(allAuthors::addAll);
         List<Author> authors = showAuthors.values().stream().flatMap(list -> list.stream()).distinct().collect(Collectors.toList());
 
         log.info("{} authors found", authors.size());
@@ -50,14 +45,47 @@ class GraphAuthorsController {
         return  authors.stream().toList();
     }
 
-    @QueryMapping
-    public Author author(@Argument String id) {
+    @QueryMapping("author_findById")
+    public Author findAuthorById(@Argument String id) {
         log.info("load author with id {}", id);
 
-        Optional<Author> optionalAuthor = showAuthors.values().stream().flatMap(list -> list.stream()).filter(author -> author.getId().equals(id)).findFirst();
+        Optional<Author> optionalAuthor = showAuthors.values().stream().flatMap(list -> list.stream()).filter(author ->  author.getId().equals(id)).findFirst();
         return optionalAuthor.orElse(null);
     }
 
+    @QueryMapping("author_search")
+    public List<Author> searchAuthors(@Argument AuthorSearchCriteria searchCriteria) {
+        log.info("search authors with following search criteria: {}", searchCriteria);
+
+        List<Author> authors = showAuthors.values().stream().flatMap(list -> list.stream()).filter(author -> {
+            String searchCriteriaAuthorId = searchCriteria.getAuthorId();
+            if (StringUtils.isNotBlank(searchCriteriaAuthorId)) {
+                if (!author.getId().toLowerCase().contains(searchCriteriaAuthorId.toLowerCase())) {
+                    return false;
+                }
+            }
+
+            String searchCriteriaFirstName = searchCriteria.getFirstName();
+            if (StringUtils.isNotBlank(searchCriteriaFirstName)) {
+                if (!author.getFirstName().toLowerCase().contains(searchCriteriaFirstName.toLowerCase())) {
+                    return false;
+                }
+            }
+
+            String searchCriteriaLastName = searchCriteria.getLastName();
+            if (StringUtils.isNotBlank(searchCriteriaLastName)) {
+                if (!author.getLastName().toLowerCase().contains(searchCriteriaLastName.toLowerCase())) {
+                    return false;
+                }
+            }
+
+            return true;
+        }).collect(Collectors.toList());
+
+        log.info("{} authors found", authors.size());
+
+        return  authors.stream().toList();
+    }
 
     // replaced with batch mapping
 //    @SchemaMapping(field = "authors", typeName = "Show")

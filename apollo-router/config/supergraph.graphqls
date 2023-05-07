@@ -19,10 +19,33 @@ directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on
 
 directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
 
+""" Author of a show """
 type Author
+  @join__type(graph: AUTHORS, key: "id")
+{
+  """ Author Id """
+  id: ID!
+
+  """ Fullname of the author """
+  name: String @deprecated(reason: "Use fullName instead")
+
+  """ First name of the author """
+  firstName: String
+
+  """ Last name of the author """
+  lastName: String
+
+  """ Full name of the author """
+  fullName: String
+}
+
+"""Can be used to search one or more authors"""
+input AuthorSearchCriteria
   @join__type(graph: AUTHORS)
 {
-  name: String
+  authorId: ID
+  firstName: String
+  lastName: String
 }
 
 scalar join__FieldSet
@@ -52,7 +75,18 @@ type Query
   @join__type(graph: REVIEWS)
   @join__type(graph: SHOWS)
 {
-  authors: [Author] @join__field(graph: AUTHORS)
+  """ queries all authors """
+  author_findAll: [Author] @join__field(graph: AUTHORS)
+
+  """
+  Finds the author with the given id.
+  
+  Returns null if no author was found
+  """
+  author_findById(id: ID): Author @join__field(graph: AUTHORS)
+
+  """Returns authors which matches the given search criteria."""
+  author_search(searchCriteria: AuthorSearchCriteria): [Author] @join__field(graph: AUTHORS)
   shows(titleFilter: String): [Show] @join__field(graph: SHOWS)
 }
 

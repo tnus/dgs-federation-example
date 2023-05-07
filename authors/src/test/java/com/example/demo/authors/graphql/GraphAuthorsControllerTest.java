@@ -42,13 +42,13 @@ class GraphAuthorsControllerTest {
     void allAuthors() {
         String query = """
                 {
-                  authors {
+                  author_findAll {
                     name
                   }
                 }
                 """;
 
         tester.document(query)
-                .execute().path("data.authors").entityList(Author.class).hasSizeGreaterThan(0);
+                .execute().path("data.author_findAll").entityList(Author.class).hasSizeGreaterThan(0);
     }
 }
