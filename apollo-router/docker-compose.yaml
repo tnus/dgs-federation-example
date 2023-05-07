@@ -1,0 +1,17 @@
+services:
+
+  # see https://github.com/apollographql/federation-jvm-spring-example/blob/main/docker-compose.yaml
+  apollographql-router:
+    image: ghcr.io/apollographql/router:v1.18.0
+    volumes:
+      - ./config/router.yaml:/dist/config/router.yaml
+      - ./config/supergraph.graphqls:/dist/config/supergraph.graphql
+    command:
+      -c config/router.yaml 
+      -s config/supergraph.graphql 
+      --hot-reload 
+      --anonymous-telemetry-disabled
+    ports:
+      - 4000:4000
+      - 9090:9090
+      - 8088:8088 # healthcheck

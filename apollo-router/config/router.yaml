@@ -1,0 +1,25 @@
+# Configuration of the router's HTTP server
+# Default configuration for container
+supergraph:
+  # The socket address and port to listen on
+  listen: 0.0.0.0:4000
+  introspection: true
+
+sandbox:
+  enabled: true
+
+homepage:
+  enabled: false
+
+telemetry:
+  metrics:
+    common:
+      resources:
+        service.name: release-name-router
+    prometheus:
+      enabled: true
+      listen: 0.0.0.0:9090
+      path: /metrics
+
+health_check:
+  listen: 0.0.0.0:8088
